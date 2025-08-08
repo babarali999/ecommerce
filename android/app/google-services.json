@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "936623727016",
+    "project_id": "inboxed-ecommerce-ae309",
+    "storage_bucket": "inboxed-ecommerce-ae309.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:936623727016:android:b4a97143e78ce44694bd9d",
+        "android_client_info": {
+          "package_name": "com.example.ecommerce"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNLjXJmiDZkCUIH3RPlx1zoOhlgjownQY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:936623727016:android:a68783f1ecb9ddd994bd9d",
+        "android_client_info": {
+          "package_name": "com.example.inboxed_ecommerce"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNLjXJmiDZkCUIH3RPlx1zoOhlgjownQY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

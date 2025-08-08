@@ -1,0 +1,39 @@
+
+[
+  {
+    "id": "1",
+    "name": "White T-shirt",
+    "description": "most comfortable and trendy t shirt ",
+    "price": 19.99,
+    "imageUrl": "https://unsplash.com/photos/white-crew-neck-t-shirt-acn5ERAeSb4",
+    "category": "T Shirts",
+    "tagline": "most comfortable and trendy t shirt"
+  },
+  {
+    "id": "2",
+    "name": "Jeans Pent",
+    "description": " ",
+    "price": 29.99,
+    "imageUrl": "https://unsplash.com/photos/persons-distressed-blue-jeans-qZNUEpqJ4z4",
+    "category": "Men Jeans",
+    "tagline": "Made by denim jeans "
+  },
+  {
+    "id": "3",
+    "name": "Mens Shoes",
+    "description": "comfortable to wear and stylish looking",
+    "price": 20.99,
+    "imageUrl": "https://unsplash.com/photos/a-pair-of-brown-shoes-sitting-on-top-of-a-white-sheet-Y8_JIgWPxDg",
+    "category": "Men Shoes",
+    "tagline": "walk with comfort"
+  },
+  {
+    "id": "4",
+    "name": "Makeup Palatte",
+    "description": "look beautiful with our premium quality makeup products",
+    "price": 20.99,
+    "imageUrl": "https://unsplash.com/photos/close-up-photography-of-assorted-cosmetics-FoeIOgztCXo",
+    "category": "MakeUp",
+    "tagline": "Enhance your beauty"
+  }
+]
