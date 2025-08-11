@@ -43,7 +43,7 @@ class ProductDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFFFF9E5),
-      appBar: AppBar(leading: BackButton()),
+      appBar: AppBar(leading: BackButton(),backgroundColor: Color(0xFFFFF9E5)),
       body: SafeArea(
         child: Padding(
           padding:  EdgeInsets.all(26.0),
@@ -74,7 +74,7 @@ class ProductDetailScreen extends StatelessWidget {
                 alignment: Alignment.center,
                 child: ElevatedButton(
                   onPressed: () => orderViaWhatsapp(context),
-                  style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF5CA18C) ,
+                  style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF151515) ,
                   ),
                   child:  Text(
                     'Order via WhatsApp',
@@ -92,4 +92,3 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 }
-

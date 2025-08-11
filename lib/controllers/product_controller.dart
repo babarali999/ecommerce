@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:ecommerce/models/product_model.dart';
+import 'package:ecoomerce/models/product_model.dart';
 
 class ProductController extends GetxController {
   var productList = <Product>[].obs;

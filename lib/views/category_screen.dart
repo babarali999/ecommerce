@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ecommerce/controllers/product_controller.dart';
+import 'package:ecoomerce/controllers/product_controller.dart';
 import 'category_product_screen.dart';
 
 class CategoriesScreen extends StatelessWidget {

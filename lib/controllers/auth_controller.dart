@@ -1,111 +1,188 @@
-import 'package:ecommerce/controllers/user_controller.dart';
-import 'package:ecommerce/auth_screens/login_screen.dart';
-import 'package:flutter/animation.dart';
+import 'package:ecoomerce/controllers/user_controller.dart';
+import 'package:ecoomerce/auth_screens/login_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ecommerce/views/home_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart' ;
-import 'package:ecommerce/auth_screens/login_screen.dart';
+import 'package:ecoomerce/views/home_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthController extends GetxController {
   static AuthController get to => Get.find();
-  late Rx<User?> firebaseUser ;
+  late Rx<User?> firebaseUser;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  var isLoading= false.obs ;
+  var isLoading = false.obs;
 
   @override
-  void onReady(){
+  void onReady() {
     super.onReady();
-    firebaseUser = Rx<User?>(_auth.currentUser) ;
+    firebaseUser = Rx<User?>(_auth.currentUser);
     firebaseUser.bindStream(_auth.authStateChanges());
-
-    ever(firebaseUser,_setInitialScreen);
+    ever(firebaseUser, _setInitialScreen);
   }
 
-  String getFriendlyFirebaseErrorMessage(errorCode){
-    //print('Normalized error code for comparison:"$errorCode" ');
-    switch (errorCode){
-      case'email-already-in-use' :
-        return 'Please use an other email ';
-      case'invalid-email':
-        return 'please enter correct email' ;
-      case'invalid-credentials' :
-        return 'please enter correct email or password' ;
+  //  Friendly Firebase Error Messages
+  String getFriendlyFirebaseErrorMessage(String errorCode) {
+    switch (errorCode) {
+      case 'email-already-in-use':
+        return 'Please use another email.';
+      case 'invalid-email':
+        return 'Please enter a valid email.';
+      case 'invalid-credential':
+        return 'Invalid email or password.';
       case 'user-disabled':
-        return 'This account has been disabled, Please contact support for help';
-      case'user-not-found':
-        return 'We could not find an account with this email, Please SignUp!' ;
+        return 'This account has been disabled. Contact support.';
+      case 'user-not-found':
+        return 'No account found with this email. Please sign up!';
       case 'wrong-password':
-        return 'Enter a valid password' ;
+        return 'Incorrect password.';
       case 'weak-password':
-        return ' Your password is too weak , please use Strong password';
+        return 'Your password is too weak. Use a stronger one.';
       case 'network-request-failed':
-        return'Network error. Check your internet connection or try again later';
+        return 'Network error. Check your connection.';
       case 'too-many-requests':
-        return 'too many unsuccessful login attempts, try again later or reset your password';
+        return 'Too many login attempts. Try again later.';
       default:
-        return 'An error occured, please try again later!' ;
+        return 'An error occurred. Please try again later.';
     }
   }
 
-
+  //  Handle initial navigation based on auth state
   Future<void> _setInitialScreen(User? user) async {
-    if(user == null){
+    if (user == null) {
       Get.offAll(() => const LogInScreen());
-    }
-    else {
+    } else {
       try {
         final userController = Get.find<UserController>();
-
         await userController.fetchUserData();
-
         Get.offAll(() => HomeScreen());
-      }catch(e){
-        print("Error in _setInitialScreen: $e" ) ;
-      } }
+      } catch (e) {
+        print("Error in _setInitialScreen: $e");
+      }
+    }
   }
 
+  //  Email Sign-Up
   Future<void> signUpWithEmailAndPassword(String name, String email, String password) async {
     try {
-      print(email);
+      isLoading.value = true;
       UserCredential cred = await _auth.createUserWithEmailAndPassword(
-        email: email, password: password,);
+        email: email,
+        password: password,
+      );
 
       await FirebaseFirestore.instance.collection('users').doc(cred.user!.uid).set({
         'name': name,
         'email': email,
-
       });
 
     } on FirebaseAuthException catch (e) {
-      print(e);
-      String friendlyError = getFriendlyFirebaseErrorMessage(e.code);
-      //print(friendlyError);
-      Get.snackbar("Signup error", friendlyError,
-          backgroundColor: Color(0xFFFF0000), colorText: Color(0xFFFFFFFF));
+      Get.snackbar(
+        "Signup Error",
+        getFriendlyFirebaseErrorMessage(e.code),
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    } finally {
+      isLoading.value = false;
     }
   }
 
+  //  Email Sign-In
   Future<void> signInWithEmailAndPassword(String email, String password) async {
-    isLoading.value = true ;
-    try{
-      print('2222222222');
-
-      final userCredentials= await _auth.signInWithEmailAndPassword(email: email, password: password);
-      print(userCredentials);
-      Get.to (() =>HomeScreen()) ;
-    }
-    on FirebaseAuthException catch (e){
-      Get.snackbar("Login error", getFriendlyFirebaseErrorMessage(e.code),
-          backgroundColor: Color(0xFFFF0000),colorText: Color(0xFFFFFFFF));
-    } finally{
-      isLoading.value = false ;
+    isLoading.value = true;
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+      Get.snackbar(
+        "Login Error",
+        getFriendlyFirebaseErrorMessage(e.code),
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    } finally {
+      isLoading.value = false;
     }
   }
 
-  Future<void> signOut() async{
+  //  Google Sign-In
+  Future<void> signInWithGoogle() async {
+    isLoading.value = true;
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) return;
+
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final result = await _auth.signInWithCredential(credential);
+
+      // if new user saved new user data
+      if (result.additionalUserInfo!.isNewUser) {
+        await FirebaseFirestore.instance.collection('users').doc(result.user!.uid).set({
+          'name': result.user!.displayName,
+          'email': result.user!.email,
+        });
+      }
+
+    } on FirebaseAuthException catch (e) {
+      Get.snackbar(
+        "Google Sign-In Error",
+        getFriendlyFirebaseErrorMessage(e.code),
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  //  Apple Sign-In
+  Future<void> signInWithApple() async {
+    isLoading.value = true;
+    try {
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+
+      final oauthCredential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        accessToken: appleCredential.authorizationCode,
+      );
+
+      final result = await _auth.signInWithCredential(oauthCredential);
+
+      if (result.additionalUserInfo!.isNewUser) {
+        await FirebaseFirestore.instance.collection('users').doc(result.user!.uid).set({
+          'name': result.user!.displayName,
+          'email': result.user!.email,
+        });
+      }
+
+    } on FirebaseAuthException catch (e) {
+      Get.snackbar(
+        "Apple Sign-In Error",
+        getFriendlyFirebaseErrorMessage(e.code),
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  //  Sign-Out
+  Future<void> signOut() async {
     await _auth.signOut();
+    await GoogleSignIn().signOut();
   }
-
 }

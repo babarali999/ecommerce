@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ecommerce/views/product_detail_screen.dart';
-import 'package:ecommerce/controllers/product_controller.dart';
+import 'package:ecoomerce/views/product_detail_screen.dart';
+import 'package:ecoomerce/controllers/product_controller.dart';
 
 class CategoryProductsScreen extends StatelessWidget {
   final String categoryName;
@@ -16,6 +16,7 @@ class CategoryProductsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xFFFFF9E5),
       appBar: AppBar(
+        backgroundColor: Color(0xFFFFF9E5),
         title: Text(categoryName),
         leading: BackButton(),
       ),

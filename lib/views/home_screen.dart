@@ -1,10 +1,11 @@
+import 'package:ecoomerce/auth_screens/login_screen.dart';
 import 'package:flutter/material.dart'; 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ecommerce/controllers/product_controller.dart';
-import 'package:ecommerce/views/product_detail_screen.dart';
-import 'package:ecommerce/widgets/product_card.dart';
-import 'package:ecommerce/views/category_screen.dart';
+import 'package:ecoomerce/controllers/product_controller.dart';
+import 'package:ecoomerce/views/product_detail_screen.dart';
+import 'package:ecoomerce/widgets/product_card.dart';
+import 'package:ecoomerce/views/category_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   final ProductController controller = Get.find();
@@ -31,9 +32,34 @@ class HomeScreen extends StatelessWidget {
                         child: Icon(Icons.menu,color: Colors.black,)
                     ) ,
                     GestureDetector(
-                      onTap: (){},
-                      child: Icon(Icons.settings , color: Colors.black),
-                    )
+                      onTap: (){
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                backgroundColor: Color(0xFFFFF9E5),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.r),
+                                ),
+                                content: Text(
+                                  'Want to log out your account ?',
+                                    style: TextStyle(fontSize: 14.sp, color: Colors.black),
+                                  ),
+                                actions: [
+                                  TextButton(
+                                    child: Text('Log Out', style: TextStyle(color: Colors.red)),
+                                    onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context)=> LogInScreen())
+                                    ),
+                                  )
+                                ],
+                              );
+                            }
+                        );
+                      },
+                      child: Icon(Icons.settings , size: 30.sp,color:Color(0xFF151515)),
+                    ),
                   ]
               ),
               SizedBox(height: 20.h),
@@ -66,8 +92,8 @@ class HomeScreen extends StatelessWidget {
                         child: ChoiceChip(
                           label: Text(cat),
                           selected: isSelected,
-                          selectedColor: Color(0xFF5CA18C),
-                          backgroundColor: Color(0xFF5CA18C),
+                          selectedColor: Color(0xFF151515),
+                          backgroundColor: Color(0xFF151515),
                           labelStyle: TextStyle(
                             color: isSelected ? Color(0xFFFFF9E5): Color(0XFFFFF9E5),
                             fontWeight: FontWeight.w500,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ecommerce/auth_screens/login_screen.dart';
+import 'package:ecoomerce/auth_screens/login_screen.dart';
 import 'package:get/get.dart';
-import 'package:ecommerce/controllers/user_controller.dart';
-import 'package:ecommerce/controllers/auth_controller.dart';
+import 'package:ecoomerce/controllers/user_controller.dart';
+import 'package:ecoomerce/controllers/auth_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -116,7 +116,7 @@ class _SignupScreenState extends State<SignUpScreen> {
                           borderRadius: BorderRadius.circular(30.r)
                       ),
                       padding: EdgeInsets.all(20.r),
-                      backgroundColor: Color(0xFF5CA18C) ,
+                      backgroundColor: Color(0xFF151515) ,
                     ),
                     onPressed: () {
                       final authController = Get.find<AuthController>();
@@ -145,6 +145,55 @@ class _SignupScreenState extends State<SignUpScreen> {
                       'Or sign up with',
                     ),
                     const Divider(thickness: 1,color: Colors.black,),
+                  ],
+                ),
+                SizedBox(height: 20.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Google Button
+                    GestureDetector(
+                      onTap: () async {
+                        try {
+                          await authController.signInWithGoogle();
+                          Get.snackbar("Success", "Signed in with Google");
+                        } catch (e) {
+                          Get.snackbar("Error", e.toString());
+                        }
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(5.w),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Image.network(
+                          "https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png",
+                          height: 50.h,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 20.w),
+
+                    // Apple Button ( iOS only)
+                    GestureDetector(
+                      onTap: () async {
+                        try {
+                          await authController.signInWithApple();
+                          Get.snackbar("Success", "Signed in with Apple");
+                        } catch (e) {
+                          Get.snackbar("Error", e.toString());
+                        }
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(5.w),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Icon(Icons.apple, size: 50.sp),
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 20.h),
@@ -191,7 +240,7 @@ class _SignupScreenState extends State<SignUpScreen> {
         Radius.circular(40.r),
       ),
       borderSide: BorderSide(
-        color: Color(0xFF20B689),
+        color: Color(0xFF151515),
         width: 2.w,
       ),
     ),

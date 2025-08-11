@@ -1,11 +1,11 @@
-import 'package:ecommerce/auth_wrapper.dart';
-import 'package:ecommerce/controllers/auth_controller.dart';
-import 'package:ecommerce/controllers/user_controller.dart';
-import 'package:ecommerce/views/home_screen.dart';
+import 'package:ecoomerce/auth_wrapper.dart';
+import 'package:ecoomerce/controllers/auth_controller.dart';
+import 'package:ecoomerce/controllers/user_controller.dart';
+import 'package:ecoomerce/views/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:ecommerce/controllers/product_controller.dart';
+import 'package:ecoomerce/controllers/product_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
