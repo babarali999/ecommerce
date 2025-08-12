@@ -3,6 +3,10 @@ import '../models/product_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ecoomerce/controllers/cart_controller.dart';
+import 'package:ecoomerce/views/cart_screen.dart';
+import 'package:get/get.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final Product product;
@@ -53,7 +57,10 @@ class ProductDetailScreen extends StatelessWidget {
               // Product Image
               AspectRatio(
                 aspectRatio: 16 / 9,
-                child: Image.network(product.imageUrl, fit: BoxFit.cover),
+                child: CachedNetworkImage(imageUrl: product.imageUrl,
+                  fit: BoxFit.cover,
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                ),
               ),
               SizedBox(height: 16.h),
               Text(product.name,
@@ -73,17 +80,35 @@ class ProductDetailScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.center,
                 child: ElevatedButton(
-                  onPressed: () => orderViaWhatsapp(context),
-                  style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF151515) ,
-                  ),
-                  child:  Text(
-                    'Order via WhatsApp',
-                    style: TextStyle(
-                        color: Color(0xFFFFF9E5)
+                    onPressed: (){
+                      final cartController = Get.find<CartController>();
+                    cartController.addToCart(product);
+                    Get.to(() => CartScreen());},
+                    style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF151515) ,
+                    ),
+                    child: Text(
+                      'Add to cart',
+                      style: TextStyle(
+                          color: Color(0xFFFFF9E5)
+                      ),
+                    )
+                ),
+              ),
+              SizedBox(height: 20.h),
+              Align(
+                alignment: Alignment.center,
+                 child: ElevatedButton(
+                    onPressed: () => orderViaWhatsapp(context),
+                    style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF151515) ,
+                    ),
+                    child:  Text(
+                      'Order via WhatsApp',
+                      style: TextStyle(
+                          color: Color(0xFFFFF9E5)
+                      ),
                     ),
                   ),
                 ),
-              ),
               SizedBox(height: 100.h),
             ],
           ),

@@ -99,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                           ),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(10.r),
                             side: BorderSide(
                               color: isSelected ? Colors.black : Colors.grey.shade300,
                             ),

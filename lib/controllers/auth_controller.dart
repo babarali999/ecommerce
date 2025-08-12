@@ -112,7 +112,10 @@ class AuthController extends GetxController {
     isLoading.value = true;
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) return;
+      if (googleUser == null) {
+        isLoading.value = false; // Stop loading if user cancels
+        return;
+      }
 
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
@@ -123,7 +126,7 @@ class AuthController extends GetxController {
 
       final result = await _auth.signInWithCredential(credential);
 
-      // if new user saved new user data
+      // Save data only for new users
       if (result.additionalUserInfo!.isNewUser) {
         await FirebaseFirestore.instance.collection('users').doc(result.user!.uid).set({
           'name': result.user!.displayName,
@@ -131,10 +134,20 @@ class AuthController extends GetxController {
         });
       }
 
+      // Navigate to home after login/signup
+      Get.offAll(() => HomeScreen());
+
     } on FirebaseAuthException catch (e) {
       Get.snackbar(
         "Google Sign-In Error",
         getFriendlyFirebaseErrorMessage(e.code),
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    } catch (e) {
+      print("Error in signin with google: $e");
+      Get.snackbar(
+        "Error", e.toString(),
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );

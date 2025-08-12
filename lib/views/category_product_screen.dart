@@ -17,7 +17,7 @@ class CategoryProductsScreen extends StatelessWidget {
       backgroundColor: Color(0xFFFFF9E5),
       appBar: AppBar(
         backgroundColor: Color(0xFFFFF9E5),
-        title: Text(categoryName),
+        title: Text(categoryName),centerTitle: true,
         leading: BackButton(),
       ),
       body: Obx(() {
@@ -37,6 +37,7 @@ class CategoryProductsScreen extends StatelessWidget {
                 Get.to(()=> ProductDetailScreen(product: product));
               },
               child: Card(
+                color: Color(0xFFDCD0A8),
                 margin: EdgeInsets.symmetric(vertical: 10.h),
                 child: ListTile(
                   leading: CachedNetworkImage(

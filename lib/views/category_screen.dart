@@ -36,7 +36,7 @@ class CategoriesScreen extends StatelessWidget {
                 elevation: 2,
                 margin: EdgeInsets.symmetric(vertical: 8.h),
                 child: ListTile(
-                  contentPadding: EdgeInsets.all(12.w),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 12.h),
                   title: Text(
                     categoryName,
                     style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),

@@ -43,11 +43,11 @@ class _LogInScreenState extends State<LogInScreen>{
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-
+                    Image.asset('assets/images/logo.png', height: 180.h,),
                     SizedBox(height:30.h),
                     Center(
                       child: Text(
-                          'Welcome Back',
+                          'Welcome Back !',
                           style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 24.sp,
@@ -116,11 +116,11 @@ class _LogInScreenState extends State<LogInScreen>{
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        const Divider(thickness: 1,color: Colors.black,),
+                         SizedBox(width:90.w,child: Divider(height:3.h,thickness: 1,color: Colors.black,)),
                         Text(
                           'Or login with',
                         ),
-                        const Divider(thickness: 1,color: Colors.black,),
+                        SizedBox(width:90.w ,child: Divider(height:3.h,thickness: 1,color: Colors.black,)),
                       ],
                     ),
                     SizedBox(height:20.h),

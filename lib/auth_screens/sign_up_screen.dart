@@ -44,36 +44,32 @@ class _SignupScreenState extends State<SignUpScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: GestureDetector(
-                      onTap: (){ Get.back();},
-                      child: Icon(Icons.arrow_back , size: 22 , color: Colors.black)),
-                ),
-                SizedBox(height: 20.h),
 
-                Center(
-                  child: Text(
-                    'Create an account',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24.sp,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
+                Image.asset('assets/images/logo.png', height: 180.h,),
+
+                // Center(
+                //   child: Text(
+                //     'Create an account',
+                //     style: TextStyle(
+                //       fontWeight: FontWeight.bold,
+                //       fontSize: 24.sp,
+                //       color: Colors.black,
+                //     ),
+                //   ),
+                // ),
                 SizedBox(height: 20.h),
                 Text(
-                  'Welcome! please enter your details',
+                  'please enter your details to register yourself!',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 20.h),
                 Padding(
-                  padding:  EdgeInsets.all(20.r),
+                  padding:  EdgeInsets.all(10.r),
                   child: TextFormField(
                     controller: _nameController,
                     keyboardType: TextInputType.name,
@@ -84,7 +80,7 @@ class _SignupScreenState extends State<SignUpScreen> {
                 ),
                 SizedBox(height: 5.h),
                 Padding(
-                  padding: EdgeInsets.all(20.r),
+                  padding: EdgeInsets.all(10.r),
                   child: TextFormField(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
@@ -95,7 +91,7 @@ class _SignupScreenState extends State<SignUpScreen> {
                 ),
                 SizedBox(height: 5.h),
                 Padding(
-                  padding: EdgeInsets.all(20.r),
+                  padding: EdgeInsets.all(10.r),
                   child: TextFormField(
                     controller: _passwordController,
                     obscureText: _isSecurePassword,
@@ -140,11 +136,11 @@ class _SignupScreenState extends State<SignUpScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Divider(thickness: 1,color: Colors.black,),
+                    SizedBox(width:90.w,child: Divider(height:3.h,thickness: 1,color: Colors.black,)),
                     Text(
                       'Or sign up with',
                     ),
-                    const Divider(thickness: 1,color: Colors.black,),
+                    SizedBox(width:90.w,child: Divider(height:3.h,thickness: 1,color: Colors.black,)),
                   ],
                 ),
                 SizedBox(height: 20.h),
