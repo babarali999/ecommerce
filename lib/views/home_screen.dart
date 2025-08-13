@@ -1,4 +1,5 @@
 import 'package:ecoomerce/auth_screens/login_screen.dart';
+import 'package:ecoomerce/views/cart_screen.dart';
 import 'package:flutter/material.dart'; 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -41,10 +42,11 @@ class HomeScreen extends StatelessWidget {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16.r),
                                 ),
-                                content: Text(
-                                  'Want to log out your account ?',
-                                    style: TextStyle(fontSize: 14.sp, color: Colors.black),
-                                  ),
+                                content: TextButton(
+                                  child: Text(
+                                  'View your Cart', style: TextStyle(fontSize: 14.sp, color: Colors.black),),
+                                  onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>CartScreen())),
+                                ),
                                 actions: [
                                   TextButton(
                                     child: Text('Log Out', style: TextStyle(color: Colors.red)),
@@ -64,15 +66,12 @@ class HomeScreen extends StatelessWidget {
               ),
               SizedBox(height: 20.h),
               TextField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: 'Search',
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.r)),
-                  ),
-                ),
+               decoration:  kTextFieldsInputDecoration.copyWith(
+                 prefixIcon: Icon(Icons.search),
+                 hintText: 'Search',
+                 filled: true,
+                 fillColor: Colors.white,
+               ),
                 onChanged: controller.searchProducts,
               ),
               SizedBox(height: 15.h),
@@ -92,6 +91,7 @@ class HomeScreen extends StatelessWidget {
                         child: ChoiceChip(
                           label: Text(cat),
                           selected: isSelected,
+                          showCheckmark: false,
                           selectedColor: Color(0xFF151515),
                           backgroundColor: Color(0xFF151515),
                           labelStyle: TextStyle(
@@ -149,7 +149,7 @@ class HomeScreen extends StatelessWidget {
     BottomNavigationBarItem(icon: Icon(Icons.receipt_long), label: 'Orders'),
     BottomNavigationBarItem(icon: Icon(Icons.chat_bubble), label: 'Chats'),
     BottomNavigationBarItem(
-    icon: CircleAvatar(backgroundColor: Color(0xFF0F5132), child: Icon(Icons.home, color: Colors.white),),
+    icon: CircleAvatar(backgroundColor: Color(0xFF151515), child: Icon(Icons.home, color: Colors.white),),
     label: '',
     ),
     BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notifications'),
@@ -157,6 +157,28 @@ class HomeScreen extends StatelessWidget {
     ],
     ),
     );
-
   }
+  InputDecoration kTextFieldsInputDecoration = InputDecoration(
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(40.r),
+      borderSide: BorderSide(
+
+        color: Color(0xFF151515),
+        width: 2.w,
+      ),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.all(
+        Radius.circular(40.r),
+      ),
+      borderSide: BorderSide(
+        color: Color(0xFF151515),
+        width: 2.w,
+      ),
+    ),
+    hintStyle: TextStyle(
+      color: Color(0xFF151515),
+      fontSize: 20.sp,
+    ),
+  );
 }

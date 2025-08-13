@@ -1,3 +1,4 @@
+import 'package:ecoomerce/views/payment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/cart_controller.dart';
@@ -49,9 +50,9 @@ class CartScreen extends StatelessWidget {
           style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
         ),
           ElevatedButton(
-              onPressed: (){},
+              onPressed: (){Get.to(()=> PaymentScreen(totalprice: cartController.totalPrice));},
               style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF151515)),
-              child: Text('Pay to proceed',style: TextStyle(color: Color(0xFFFFF9E5)),)
+              child: Text('Proceed to Pay',style: TextStyle(color: Color(0xFFFFF9E5)),)
           )
        ],
       )

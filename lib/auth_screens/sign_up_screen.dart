@@ -100,7 +100,6 @@ class _SignupScreenState extends State<SignUpScreen> {
                         hintText: 'Password',
                         suffixIcon: togglePassword()
                     ),
-
                   ),
                 ),
                 SizedBox(height: 50.h),

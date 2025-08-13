@@ -1,4 +1,5 @@
 import 'package:ecoomerce/controllers/user_controller.dart';
+import 'package:ecoomerce/controllers/cart_controller.dart'; // Add this import
 import 'package:ecoomerce/auth_screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -51,15 +52,52 @@ class AuthController extends GetxController {
 
   //  Handle initial navigation based on auth state
   Future<void> _setInitialScreen(User? user) async {
+    print("=== _setInitialScreen called ===");
+    print("User: ${user?.email}");
+
+    // Reset loading state
+    isLoading.value = false;
+
     if (user == null) {
+      print("User is null, going to Login");
+      // Clear user data and cart on logout
+      if (Get.isRegistered<UserController>()) {
+        final userController = Get.find<UserController>();
+        userController.clearUserData();
+      }
+      if (Get.isRegistered<CartController>()) {
+        final cartController = Get.find<CartController>();
+        cartController.clearLocalCart();
+      }
       Get.offAll(() => const LogInScreen());
     } else {
       try {
+        print("User found, fetching user data...");
         final userController = Get.find<UserController>();
         await userController.fetchUserData();
+        print("User data fetched successfully");
+
+        // Sync cart after successful login (with timeout)
+        if (Get.isRegistered<CartController>()) {
+          print("Syncing cart...");
+          final cartController = Get.find<CartController>();
+
+          // Add timeout to prevent hanging
+          await cartController.syncCartOnLogin().timeout(
+            Duration(seconds: 10),
+            onTimeout: () {
+              print("Cart sync timeout, continuing anyway");
+            },
+          );
+          print("Cart sync completed");
+        }
+
+        print("Navigating to HomeScreen");
         Get.offAll(() => HomeScreen());
       } catch (e) {
         print("Error in _setInitialScreen: $e");
+        // Fallback to login on error
+        Get.offAll(() => const LogInScreen());
       }
     }
   }
@@ -76,6 +114,7 @@ class AuthController extends GetxController {
       await FirebaseFirestore.instance.collection('users').doc(cred.user!.uid).set({
         'name': name,
         'email': email,
+        'createdAt': FieldValue.serverTimestamp(),
       });
 
     } on FirebaseAuthException catch (e) {
@@ -131,6 +170,7 @@ class AuthController extends GetxController {
         await FirebaseFirestore.instance.collection('users').doc(result.user!.uid).set({
           'name': result.user!.displayName,
           'email': result.user!.email,
+          'createdAt': FieldValue.serverTimestamp(),
         });
       }
 
@@ -178,6 +218,7 @@ class AuthController extends GetxController {
         await FirebaseFirestore.instance.collection('users').doc(result.user!.uid).set({
           'name': result.user!.displayName,
           'email': result.user!.email,
+          'createdAt': FieldValue.serverTimestamp(),
         });
       }
 
@@ -195,6 +236,12 @@ class AuthController extends GetxController {
 
   //  Sign-Out
   Future<void> signOut() async {
+    // Clear local cart before signing out
+    if (Get.isRegistered<CartController>()) {
+      final cartController = Get.find<CartController>();
+      cartController.clearLocalCart();
+    }
+
     await _auth.signOut();
     await GoogleSignIn().signOut();
   }

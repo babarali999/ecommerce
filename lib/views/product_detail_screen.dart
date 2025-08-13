@@ -50,7 +50,7 @@ class ProductDetailScreen extends StatelessWidget {
       appBar: AppBar(leading: BackButton(),backgroundColor: Color(0xFFFFF9E5)),
       body: SafeArea(
         child: Padding(
-          padding:  EdgeInsets.all(26.0),
+          padding:  EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -109,7 +109,7 @@ class ProductDetailScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-              SizedBox(height: 100.h),
+              SizedBox(height: 90.h),
             ],
           ),
         ),
